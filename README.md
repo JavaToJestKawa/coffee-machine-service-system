@@ -2,17 +2,16 @@
 
 Spring Boot web application for managing customers, coffee machines and service operations.
 
+## Demo
+
+![Application demo](assets/demo.gif)
+
 ## Description
 
 Coffee Machine Service System is a Java web application created as an academic project for modeling and implementing a service management system.  
 The application allows users to browse customers, display their registered coffee machines through object associations, and register new coffee machines using a web form.
 
 The project demonstrates object-oriented modeling concepts such as inheritance, associations, composition, class attributes, persistence, validation and layered architecture.
-
-##DEMO
-## Demo
-
-![Application demo](assets/demo.gif)
 
 ## Features
 
