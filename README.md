@@ -9,6 +9,11 @@ The application allows users to browse customers, display their registered coffe
 
 The project demonstrates object-oriented modeling concepts such as inheritance, associations, composition, class attributes, persistence, validation and layered architecture.
 
+##DEMO
+## Demo
+
+![Application demo](assets/demo.gif)
+
 ## Features
 
 - Customer list view
