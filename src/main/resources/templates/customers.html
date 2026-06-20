@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Klienci i ekspresy</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header class="top-bar">
+    <h1>System obsługi serwisu ekspresów do kawy</h1>
+</header>
+
+<main class="layout">
+
+    <section class="panel">
+        <h2>Klienci</h2>
+
+        <div class="list">
+            <a class="list-item"
+               th:each="customer : ${customers}"
+               th:href="@{/customers/{id}(id=${customer.id})}"
+               th:classappend="${selectedCustomer != null and selectedCustomer.id == customer.id} ? ' selected' : ''">
+
+                <strong th:text="${customer.firstName + ' ' + customer.lastName}">Jan Kowalski</strong>
+                <span th:text="${customer.phoneNumber}">500100200</span>
+            </a>
+        </div>
+    </section>
+
+    <section class="panel main-panel">
+        <div th:if="${selectedCustomer == null}">
+            <h2>Ekspresy klienta</h2>
+            <p class="muted">Wybierz klienta z listy, aby zobaczyć jego ekspresy.</p>
+        </div>
+
+        <div th:if="${selectedCustomer != null}">
+            <div class="section-header">
+                <div>
+                    <h2>Ekspresy klienta</h2>
+                    <p>
+                        Wybrany klient:
+                        <strong th:text="${selectedCustomer.firstName + ' ' + selectedCustomer.lastName}">
+                            Jan Kowalski
+                        </strong>
+                    </p>
+                </div>
+
+                <a class="button"
+                   th:href="@{/customers/{id}/machines/new(id=${selectedCustomer.id})}">
+                    Zarejestruj ekspres
+                </a>
+            </div>
+
+            <div class="success-message" th:if="${registered}">
+                Ekspres został zarejestrowany.
+            </div>
+
+            <p class="muted" th:if="${selectedCustomer.coffeeMachines.isEmpty()}">
+                Ten klient nie ma jeszcze zarejestrowanych ekspresów.
+            </p>
+
+            <table th:if="${!selectedCustomer.coffeeMachines.isEmpty()}">
+                <thead>
+                <tr>
+                    <th>Numer seryjny</th>
+                    <th>Opis</th>
+                    <th>Model</th>
+                    <th>Stan</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="machine : ${selectedCustomer.coffeeMachines}">
+                    <td th:text="${machine.serialNumber}">SN-001</td>
+                    <td th:text="${machine.description}">Ekspres domowy</td>
+                    <td th:text="${machine.model.displayName}">DeLonghi Magnifica</td>
+                    <td th:text="${machine.condition}">FUNCTIONAL</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="panel side-panel">
+        <h2>Rejestracja ekspresu</h2>
+
+        <div th:if="${selectedCustomer == null}">
+            <p class="muted">Przed rejestracją ekspresu wybierz klienta.</p>
+        </div>
+
+        <div th:if="${selectedCustomer != null}">
+            <p>
+                Nowy ekspres zostanie przypisany do klienta:
+                <strong th:text="${selectedCustomer.firstName + ' ' + selectedCustomer.lastName}">
+                    Jan Kowalski
+                </strong>
+            </p>
+
+            <a class="button secondary"
+               th:href="@{/customers/{id}/machines/new(id=${selectedCustomer.id})}">
+                Otwórz formularz
+            </a>
+        </div>
+    </section>
+
+</main>
+
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rejestracja ekspresu</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script defer th:src="@{/js/app.js}"></script>
+</head>
+<body>
+
+<header class="top-bar">
+    <h1>Rejestracja ekspresu</h1>
+</header>
+
+<main class="form-container">
+
+    <section class="panel form-panel">
+        <h2>Nowy ekspres</h2>
+
+        <p>
+            Klient:
+            <strong th:text="${customer.firstName + ' ' + customer.lastName}">
+                Jan Kowalski
+            </strong>
+        </p>
+
+        <div class="error-message" th:if="${errorMessage != null}" th:text="${errorMessage}">
+            Błąd formularza
+        </div>
+
+        <form th:action="@{/customers/{id}/machines(id=${customer.id})}"
+              th:object="${machineForm}"
+              method="post"
+              data-confirm="Czy na pewno chcesz zarejestrować ten ekspres?">
+
+            <div class="form-group">
+                <label for="serialNumber">Numer seryjny *</label>
+                <input id="serialNumber" type="text" th:field="*{serialNumber}">
+                <div class="field-error" th:if="${#fields.hasErrors('serialNumber')}" th:errors="*{serialNumber}">
+                    Numer seryjny jest wymagany.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Opis ekspresu *</label>
+                <textarea id="description" rows="4" th:field="*{description}"></textarea>
+                <div class="field-error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}">
+                    Opis jest wymagany.
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="modelId">Model ekspresu *</label>
+                <select id="modelId" th:field="*{modelId}">
+                    <option value="">-- wybierz model --</option>
+                    <option th:each="machineModel : ${machineModels}"
+                            th:value="${machineModel.id}"
+                            th:text="${machineModel.displayName}">
+                        DeLonghi Magnifica
+                    </option>
+                </select>
+                <div class="field-error" th:if="${#fields.hasErrors('modelId')}" th:errors="*{modelId}">
+                    Model jest wymagany.
+                </div>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="button">Zarejestruj ekspres</button>
+                <a class="button secondary"
+                   th:href="@{/customers/{id}(id=${customer.id})}">
+                    Anuluj
+                </a>
+            </div>
+        </form>
+    </section>
+
+</main>
+
+</body>
+</html>
